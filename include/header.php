@@ -1,6 +1,8 @@
  
+<?php require_once('auth_check.php'); ?>
+<?php require_once('connection.php'); ?>
 <?php include('sidebar.php') ; ?>
-<?php include('include/connection.php') ; ?>
+ 
 
 <!DOCTYPE html>
 

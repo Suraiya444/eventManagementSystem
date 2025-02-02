@@ -1,7 +1,7 @@
-<?php 
+<?php
     session_start();
 ?>
-<?php include_once('include/connection.php'); ?>
+<?php require_once('include/connection.php'); ?>
 <!DOCTYPE html>
 
 <html
@@ -65,7 +65,7 @@
               <h4 class="mb-2">Log In</h4>
               <p class="mb-4">Please Log With Your Email and Password</p>
 
-              <form id="formAuthentication" class="mb-3" action="index.php" method="post">
+              <form id="formAuthentication" class="mb-3" action="" method="post">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email or Username</label>
                   <input type="text"class="form-control"id="email"name="email"placeholder="Enter your email or username"autofocus/>
@@ -79,25 +79,23 @@
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
                 </div>
-                <div class="mb-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="remember-me" />
-                    <label class="form-check-label" for="remember-me"> Remember Me </label>
-                  </div>
-                </div>
+               
                 <div class="mb-3">
                   <button class="btn btn-primary d-grid w-100" type="submit">Log in</button>
                 </div>
               </form>
               <?php
+              
                   if($_POST){
                       $_POST['password']=sha1($_POST['password']);
                       $rs=$mysqli->common_select_single('auth','*',$_POST);
+                      
+                      
                       if($rs['data']){
                           $_SESSION['loggedin']="true";
-                          $_SESSION['username']=$rs['data']->username;
+                          // $_SESSION['username']=$rs['data']->username;
                           $_SESSION['email']=$rs['data']->email;
-                          header('location:index.php');
+                          echo "<script>window.location='{$baseurl}index.php'</script>";
                       }else{
                           echo "Please check your user name and password again.";
                       }
