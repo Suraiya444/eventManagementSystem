@@ -1,4 +1,6 @@
-
+<?php 
+    session_start();
+?>
 <?php include('include/header.php'); ?>
 
           <div class="content-wrapper">

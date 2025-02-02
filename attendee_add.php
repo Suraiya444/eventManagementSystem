@@ -25,7 +25,7 @@
               </div>
               <div class="mb-3">
               <label class="form-label" for="basic-default-company">Event</label>
-              <select class="form-control" id="event_id" name="event_id">
+              <select class="form-control" id="event_id" name="event_id" onchange="checkCapacity()">
                 <option value="">Select Event</option>
                 <?php
                 $result = $mysqli->common_select('event');
@@ -36,7 +36,7 @@
                     $disabled = ($count >= $d->capacity) ? 'disabled' : '';
                     $status = ($count >= $d->capacity) ? ' (Full)' : ' (' . $count . '/' . $d->capacity . ')';
                 ?>
-                    <option value="<?= $d->id ?>" <?= $disabled ?>><?= $d->name . $status ?></option>
+                    <option value="<?= $d->id ?>" data-capacity="<?= $d->capacity ?>" <?= $disabled ?>><?= $d->name . $status ?></option>
                 <?php
                   }
                 }
@@ -62,48 +62,37 @@
 
         <script>
            function checkCapacity() {
-            var eventId = document.getElementById('event_id').value;
-            var selectedOption = document.querySelector(`#event_id option[value='${eventId}']`);
-            var capacity = selectedOption ? parseInt(selectedOption.getAttribute('data-capacity')) : 0;
-
-    if (eventId) {       
-        fetch(`check_attendees.php?event_id=${eventId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.error) {
-                    throw new Error(data.error);
-                }
-                var attendeesCount = parseInt(data.attendees_count);
-                 
-                if (attendeesCount >= capacity) {
-                    document.getElementById('submit_button').disabled = true;
-                    alert('Registration closed! Maximum capacity reached.');
-                } else {
-                    document.getElementById('submit_button').disabled = false;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                 
-                document.getElementById('submit_button').disabled = false;
-            });
-    } else {
-        document.getElementById('submit_button').disabled = true;
-    }
-}
-
- 
-document.addEventListener('DOMContentLoaded', function() {
     var eventSelect = document.getElementById('event_id');
-    if (eventSelect.value) {
-        checkCapacity();
+    var eventId = eventSelect.value;
+    
+    if (!eventId) {
+        document.getElementById('submit_button').disabled = true;
+        return;
     }
-});
+
+    var selectedOption = eventSelect.options[eventSelect.selectedIndex];
+    var capacity = parseInt(selectedOption.getAttribute('data-capacity'));
+
+    fetch(`check_attendees.php?event_id=${eventId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            var attendeesCount = parseInt(data.attendees_count);
+            
+            if (attendeesCount >= capacity) {
+                document.getElementById('submit_button').disabled = true;
+                alert('Registration closed! Maximum capacity reached.');
+            } else {
+                document.getElementById('submit_button').disabled = false;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('submit_button').disabled = false;
+        });
+}
         </script>
       
 
