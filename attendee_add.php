@@ -31,13 +31,10 @@
                 $result = $mysqli->common_select('event');
                 if ($result && !empty($result['data'])) {
                   foreach ($result['data'] as $d) {
-                    // Get current attendee count
                     $count_result = $mysqli->common_select('attendee', 'COUNT(*) as total', "event_id = '{$d->id}'");
-                    $current_count = $count_result['data'][0]->total ?? 0;
-                    
-                    // Disable option if event is full
-                    $disabled = ($current_count >= $d->capacity) ? 'disabled' : '';
-                    $status = ($current_count >= $d->capacity) ? ' (Full)' : ' (' . $current_count . '/' . $d->capacity . ')';
+                    $count = $count_result['data'][0]->total ?? 0;                               
+                    $disabled = ($count >= $d->capacity) ? 'disabled' : '';
+                    $status = ($count >= $d->capacity) ? ' (Full)' : ' (' . $count . '/' . $d->capacity . ')';
                 ?>
                     <option value="<?= $d->id ?>" <?= $disabled ?>><?= $d->name . $status ?></option>
                 <?php
@@ -123,9 +120,9 @@ if ($_POST) {
     
     if ($capacity_result['data'] && $count_result['data']) {
         $capacity = $capacity_result['data'][0]->capacity;
-        $current_count = $count_result['data'][0]->total;
+        $count = $count_result['data'][0]->total;
         
-        if ($current_count >= $capacity) {
+        if ($count >= $capacity) {
             echo "<div class='alert alert-danger'>Sorry, this event is already full.</div>";
             exit;
         }

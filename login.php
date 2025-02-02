@@ -65,7 +65,7 @@
               <h4 class="mb-2">Log In</h4>
               <p class="mb-4">Please Log With Your Email and Password</p>
 
-              <form id="formAuthentication" class="mb-3" action="index.php" method="POST">
+              <form id="formAuthentication" class="mb-3" action="index.php" method="post">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email or Username</label>
                   <input type="text"class="form-control"id="email"name="email"placeholder="Enter your email or username"autofocus/>

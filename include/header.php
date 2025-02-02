@@ -1,6 +1,7 @@
+ 
 <?php include('sidebar.php') ; ?>
 <?php include('include/connection.php') ; ?>
- 
+
 <!DOCTYPE html>
 
 <!-- =========================================================
