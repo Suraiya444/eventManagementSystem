@@ -6,6 +6,10 @@
 
             <div class="container-xxl flex-grow-1 container-p-y">
               <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span>Event Add</h4>
+              <h5 class="card-header d-flex justify-content-end align-items-center py-2">
+              <a href="event_list.php" class="btn btn-primary"> + Event List</a>
+                
+            </h5>
               <!-- Basic Layout -->
               <div class="row">
                 <div class="col-xl">
@@ -18,7 +22,7 @@
                       <form method="post"action="">
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-fullname"> Name</label>
-                          <input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" name="name" />
+                          <input type="text" class="form-control" id="basic-default-fullname" placeholder="Event Name" name="name" />
                         </div>
                         <div class="mb-3">
                           <label class="form-label" for="basic-default-company">Description</label>

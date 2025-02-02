@@ -10,6 +10,10 @@
         <!-- Card with Table -->
         <div class="card">
             <h5 class="card-header">Event List</h5>
+            <h5 class="card-header d-flex justify-content-end align-items-center py-2">
+              <a href="event_add.php" class="btn btn-primary"> + Add Event</a>
+                
+            </h5>
             <div class="card-body">
                 <!-- Table Container -->
                 <div class="table-responsive text-nowrap">

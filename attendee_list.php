@@ -5,16 +5,19 @@
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Page Title -->
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Attendee List</span></h4>
-
+        <!-- <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Attendee List</span></h4> -->
         <!-- Card with Table -->
         <div class="card">
-            <h5 class="card-header">Attendee List</h5>
-            <form method="get"action="">
-                        <div class="mb-3 ">
-                          <label class="form-label" for="basic-default-company">Event</label>
-                          
-                           <select class="form-control" id="event_id" name="event_id">
+            <h5 class="card-header d-flex justify-content-between align-items-center py-2">
+                Attendee List
+                <a href="attendee_add.php" class="btn btn-primary">Add Attendee</a>
+            </h5>
+            <div class="card-body p-4">
+                <form method="get" action="" class="mb-3">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <label class="form-label" for="event_id"></label>
+                            <select class="form-control form-control-sm" id="event_id" name="event_id">
                               <option value="">Select Event</option>
                             <?php 
                                 $result=$mysqli->common_select('event');
@@ -22,18 +25,26 @@
                                     if($result['data']){
                                         foreach($result['data'] as $d){
                             ?>
-                            <option value="<?= $d->id ?>"<?= isset($_GET['event_id']) && $_GET['event_id']==$d->id?"selected":"" ?>> <?= $d->name ?></option>
+                            <option value="<?= $d->id ?>"<?= isset($_GET['event_id']) && $_GET['event_id']==$d->id?"selected":"" ?>>                            
+                            <?= $d->name ?></option>                       
                             <?php } } } ?>
                             </select>
-
-                        </div>
+                        </div>                       
+                        <div class="text-start">
                         <button type="submit" class="btn btn-primary">Submit</button>
-
+                        <?php if(isset($_GET['event_id'])){ ?>
+                            <a href="export_attendee.php?event_id=<?= $_GET['event_id'] ?>" class="btn btn-success">Show Report</a>
+                        <?php } ?>
+                      </div>
+                 
+                        <?php if(isset($_GET['event_id'])){ ?>
+                         <?= $_GET['event_id'] ?> 
+                        <?php } ?> 
                       </form>
             <div class="card-body">
                 <!-- Table Container -->
-                <div class="table-responsive text-nowrap">
-                    <table id="example" class="table table-bordered">
+                <div class="table-responsive text-nowrap pt-4">
+                    <table id="example" class="table table-bordered"style="margin: auto;">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -61,11 +72,10 @@
                                 <td><?= $data-> email?></td>
                                 <td><?= $data-> contact?></td>
                                <td> <button type="button" class="btn btn-warning" onclick="window.location.href='<?= $baseurl ?>attendee_edit.php?id=<?= $data ->id ?>'">Edit</button>
-
                                 <button type="button" class="btn btn-danger" onclick="window.location.href='<?= $baseurl?>attendee_delete.php?id=<?= $data ->id ?>'">Delete</button> </td>
                             </tr>
                             <?php } } } }?>
-                            <!-- Add more rows as needed -->
+                             
                         </tbody>
                     </table>
                 </div>
@@ -74,24 +84,7 @@
     </div>
     <!-- / Content -->
 
-    <!-- Footer -->
-    <!-- <footer class="content-footer footer bg-footer-theme">
-        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-            <div class="mb-2 mb-md-0">
-                ©
-                <script>document.write(new Date().getFullYear());</script>,
-                made with ❤ by
-                <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-            </div>
-            <div>
-                <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-                <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
-                <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank" class="footer-link me-4">Documentation</a>
-                <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank" class="footer-link me-4">Support</a>
-            </div>
-        </div>
-    </footer> -->
-    <!-- / Footer -->
+    
 
     <div class="content-backdrop fade"></div>
 </div>
